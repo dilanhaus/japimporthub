@@ -21,7 +21,10 @@ export function FeaturedRequestsSection() {
           />
           <Link
             href="/buyer"
-            className={cn(buttonVariants({ variant: "outline" }), "shrink-0 border-white/15 text-zinc-300")}
+            className={cn(
+              buttonVariants({ variant: "ghostDark" }),
+              "shrink-0",
+            )}
           >
             Browse all requests
             <ArrowRight className="ml-2 size-4" />
@@ -34,7 +37,7 @@ export function FeaturedRequestsSection() {
             return (
               <Card
                 key={req.id}
-                className="group overflow-hidden border-white/[0.06] bg-white/[0.02] p-0 transition-all hover:-translate-y-0.5 hover:border-white/10 hover:shadow-lg hover:shadow-indigo-500/10"
+                className="card-dark group overflow-hidden border-neutral-800 p-0 transition-all hover:-translate-y-0.5 hover:border-neutral-700 hover:shadow-lg hover:shadow-[var(--red)]/5"
               >
                 <div className="relative aspect-[16/10] overflow-hidden">
                   <Image
@@ -44,24 +47,26 @@ export function FeaturedRequestsSection() {
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-[var(--bg)]/20 to-transparent" />
                   <Badge
-                    variant="secondary"
-                    className="absolute left-3 top-3 border-0 bg-black/50 text-zinc-200 backdrop-blur-md"
+                    variant="outline"
+                    className="absolute left-3 top-3 border-neutral-700 bg-[var(--bg)]/80 text-[var(--text-primary)] backdrop-blur-md"
                   >
                     {req.status === "quoting" ? "Receiving quotes" : "Open"}
                   </Badge>
                 </div>
                 <CardHeader className="space-y-2 pb-2">
-                  <CardTitle className="text-lg text-white">{req.title}</CardTitle>
+                  <CardTitle className="text-lg text-[var(--text-primary)]">{req.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4 pt-0">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-zinc-500">Budget</span>
-                    <span className="font-semibold text-white">£{req.budgetGbp.toLocaleString()}</span>
+                    <span className="text-[var(--text-secondary)]">Budget</span>
+                    <span className="font-mono font-semibold text-[var(--text-primary)]">
+                      £{req.budgetGbp.toLocaleString()}
+                    </span>
                   </div>
-                  <div className="flex items-center gap-2 rounded-lg border border-white/[0.06] bg-indigo-500/10 px-3 py-2 text-sm text-indigo-200">
-                    <MessageSquareQuote className="size-4 shrink-0" />
+                  <div className="flex items-center gap-2 rounded-lg border border-neutral-800 bg-[var(--red)]/10 px-3 py-2 text-sm text-[var(--text-primary)]">
+                    <MessageSquareQuote className="size-4 shrink-0 text-[var(--red)]" />
                     <span>
                       <strong className="font-semibold">{req.quotesCount}</strong> quotes received
                     </span>

@@ -142,7 +142,7 @@ export function PublicRequestForm() {
       <CardHeader>
         <CardTitle className="text-2xl text-white">Post a vehicle request</CardTitle>
         <CardDescription className="text-zinc-400">
-          Tell us what you want to import. Dealers on ImportBase will compete with transparent quotes.
+          Tell us what you want to import. Dealers on GradeFive will compete with transparent quotes.
         </CardDescription>
       </CardHeader>
       <CardContent>

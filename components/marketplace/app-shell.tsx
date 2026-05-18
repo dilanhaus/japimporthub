@@ -22,9 +22,9 @@ export function AppShell({ title, subtitle, nav, children, badge }: AppShellProp
       <aside className="hidden w-64 shrink-0 flex-col border-r border-border/80 bg-background py-6 pl-6 pr-4 lg:flex">
         <Link href="/" className="flex items-center gap-2">
           <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-xs font-bold text-primary-foreground">
-            IB
+            G5
           </span>
-          <span className="text-sm font-semibold">ImportBase</span>
+          <span className="text-sm font-semibold">GradeFive</span>
         </Link>
         {badge ? <p className="mt-1 text-xs text-muted-foreground">{badge}</p> : null}
         <nav className="mt-8 flex flex-col gap-1">

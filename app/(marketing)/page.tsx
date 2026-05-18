@@ -6,7 +6,7 @@ import { MarketplacePreviewSection } from "@/components/importbase/landing/marke
 import { TestimonialsSection } from "@/components/importbase/landing/testimonials";
 import { TrustBarSection } from "@/components/importbase/landing/trust-bar";
 import { VehicleShowcaseSection } from "@/components/importbase/landing/vehicle-showcase";
-import { WhyImportBaseSection } from "@/components/importbase/landing/why-importbase";
+import { WhyGradeFiveSection } from "@/components/importbase/landing/why-importbase";
 
 export default function HomePage() {
   return (
@@ -15,7 +15,7 @@ export default function HomePage() {
       <VehicleShowcaseSection />
       <TrustBarSection />
       <HowItWorksSection />
-      <WhyImportBaseSection />
+      <WhyGradeFiveSection />
       <MarketplacePreviewSection />
       <FeaturedRequestsSection />
       <TestimonialsSection />

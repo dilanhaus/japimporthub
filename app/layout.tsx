@@ -13,8 +13,8 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: "ImportBase — Trusted Japanese import marketplace",
-    template: "%s — ImportBase",
+    default: "GradeFive — Trusted Japanese import marketplace",
+    template: "%s — GradeFive",
   },
   description:
     "Post the car you want and receive competitive quotes from verified Japanese exporters and dealers. Transparent, secure, UK-focused.",

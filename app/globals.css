@@ -117,6 +117,34 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* GradeFive marketing theme (scoped via .gradefive-theme) */
+.gradefive-theme {
+  --bg: #0b0d10;
+  --surface: #121418;
+  --text-primary: #e8eaed;
+  --text-secondary: #a9afb7;
+  --red: #e11d2e;
+  --red-hover: #c31222;
+  --ring: #e11d2e66;
+
+  --background: var(--bg);
+  --foreground: var(--text-primary);
+  --card: var(--surface);
+  --card-foreground: var(--text-primary);
+  --primary: var(--red);
+  --primary-foreground: #ffffff;
+  --muted: var(--surface);
+  --muted-foreground: var(--text-secondary);
+  --border: oklch(1 0 0 / 8%);
+  --ring: #e11d2e66;
+}
+
+@layer utilities {
+  .card-dark {
+    @apply rounded-xl border border-neutral-800 bg-[var(--surface)];
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -126,5 +154,10 @@
   }
   html {
     @apply font-sans;
+  }
+
+  .gradefive-theme :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
 }
