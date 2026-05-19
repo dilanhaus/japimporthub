@@ -92,6 +92,7 @@ export function DocumentStack({ compact = false }: DocumentStackProps) {
                 >
                   {doc.badge}
                 </Badge>
+                <p className="mt-1.5 text-center text-[9px] text-neutral-500">{doc.subtext}</p>
               </div>
             </div>
           </m.div>
