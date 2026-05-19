@@ -1,35 +1,29 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { JourneyProgress } from "./HeroJourney/JourneyProgress";
 import { State01PostRequest } from "./HeroJourney/State01PostRequest";
-import { State02DealersQuote } from "./HeroJourney/State02DealersQuote";
-import { State03AcceptQuote } from "./HeroJourney/State03AcceptQuote";
-import { State04Documentation } from "./HeroJourney/State04Documentation";
-import { State05SecureDeposit } from "./HeroJourney/State05SecureDeposit";
-import { State06ShippingTracker } from "./HeroJourney/State06ShippingTracker";
-import { State07Delivered } from "./HeroJourney/State07Delivered";
+import { State02QuotesFlow } from "./HeroJourney/State02QuotesFlow";
+import { State03DocsDeposit } from "./HeroJourney/State03DocsDeposit";
+import { State04Shipping } from "./HeroJourney/State04Shipping";
+import { State05Delivered } from "./HeroJourney/State05Delivered";
 import {
   JOURNEY_STAGES,
+  LOOP_BLACKOUT_MS,
   REQUEST_FIELDS,
   STATE_COUNT,
   STATE_DURATIONS_MS,
-  stateFade,
+  stageFade,
 } from "./HeroJourney/shared";
 
 const STATES = [
   State01PostRequest,
-  State02DealersQuote,
-  State03AcceptQuote,
-  State04Documentation,
-  State05SecureDeposit,
-  State06ShippingTracker,
-  State07Delivered,
+  State02QuotesFlow,
+  State03DocsDeposit,
+  State04Shipping,
+  State05Delivered,
 ] as const;
-
-const PAUSE_MS = 8000;
 
 type HeroJourneyProps = {
   className?: string;
@@ -37,9 +31,8 @@ type HeroJourneyProps = {
 
 export function HeroJourney({ className }: HeroJourneyProps) {
   const [state, setState] = useState(0);
-  const [pausedUntil, setPausedUntil] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [state3Accepted, setState3Accepted] = useState(false);
+  const [blackout, setBlackout] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -51,34 +44,31 @@ export function HeroJourney({ className }: HeroJourneyProps) {
 
   useEffect(() => {
     if (reducedMotion) return;
-    const duration = STATE_DURATIONS_MS[state] ?? 2500;
-    const id = window.setTimeout(() => {
-      if (Date.now() < pausedUntil) return;
-      setState((current) => (current + 1) % STATE_COUNT);
-    }, duration);
-    return () => window.clearTimeout(id);
-  }, [state, pausedUntil, reducedMotion]);
 
-  const jumpToState = useCallback((index: number) => {
-    setState(index);
-    setPausedUntil(Date.now() + PAUSE_MS);
-  }, []);
+    const duration = STATE_DURATIONS_MS[state] ?? 3500;
 
-  useEffect(() => {
-    if (state !== 2) {
-      setState3Accepted(false);
-      return;
+    if (state === STATE_COUNT - 1) {
+      const blackoutAt = duration - LOOP_BLACKOUT_MS;
+      const startBlack = window.setTimeout(() => setBlackout(true), blackoutAt);
+      const advance = window.setTimeout(() => {
+        setBlackout(false);
+        setState(0);
+      }, duration);
+      return () => {
+        window.clearTimeout(startBlack);
+        window.clearTimeout(advance);
+      };
     }
-    const id = window.setTimeout(() => setState3Accepted(true), 1500);
+
+    const id = window.setTimeout(() => {
+      setState((current) => current + 1);
+    }, duration);
+
     return () => window.clearTimeout(id);
-  }, [state]);
+  }, [state, reducedMotion]);
 
   const ActiveState = STATES[state];
-  const currentStage = JOURNEY_STAGES[state];
-  const stageLabel =
-    state === 2 && state3Accepted && currentStage && "labelAccepted" in currentStage
-      ? currentStage.labelAccepted
-      : (currentStage?.label ?? "");
+  const stageLabel = JOURNEY_STAGES[state]?.label ?? "";
 
   if (reducedMotion) {
     return (
@@ -90,7 +80,7 @@ export function HeroJourney({ className }: HeroJourneyProps) {
         role="region"
         aria-label="How Grade Five works"
       >
-        <p className="font-mono text-xs text-[var(--text-secondary)]">01 — Post your request</p>
+        <p className="font-mono text-[10px] text-neutral-500">01 — Post your request</p>
         <ul className="mt-4 grid gap-2 text-sm text-[var(--text-primary)] sm:grid-cols-2">
           {REQUEST_FIELDS.map((field) => (
             <li key={field.label}>
@@ -99,10 +89,10 @@ export function HeroJourney({ className }: HeroJourneyProps) {
             </li>
           ))}
         </ul>
-        <ol className="mt-8 grid gap-2 border-t border-neutral-800 pt-6 sm:grid-cols-2">
-          {JOURNEY_STAGES.map((stage) => (
-            <li key={stage.label} className="text-xs text-[var(--text-secondary)]">
-              {stage.label}
+        <ol className="mt-6 space-y-1 border-t border-neutral-800 pt-4">
+          {JOURNEY_STAGES.map((s) => (
+            <li key={s.label} className="font-mono text-[10px] text-neutral-500">
+              {s.label}
             </li>
           ))}
         </ol>
@@ -117,52 +107,39 @@ export function HeroJourney({ className }: HeroJourneyProps) {
           "relative w-full overflow-hidden rounded-2xl",
           "border border-neutral-700/60 bg-[var(--surface)]/70 shadow-[0_32px_100px_-40px_rgba(0,0,0,0.9)] backdrop-blur-md",
           "ring-1 ring-white/[0.04]",
-          "px-5 py-5 sm:px-8 sm:py-7",
+          "px-5 py-5 sm:px-8 sm:py-6",
           className,
         )}
         role="region"
         aria-label="How Grade Five works"
-        aria-roledescription="carousel"
       >
-        <AnimatePresence mode="wait">
-          <m.div
-            key={`label-${state}-${state3Accepted}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="flex items-center gap-2"
-          >
-            {state === 2 && state3Accepted ? (
-              <m.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="size-2 shrink-0 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.7)]"
-                aria-hidden
-              />
-            ) : null}
-            <p
-              className={cn(
-                "font-mono text-[11px] tracking-wide",
-                state === 2 && state3Accepted
-                  ? "text-emerald-400/90"
-                  : "text-[var(--text-secondary)]",
-              )}
-            >
-              {stageLabel}
-            </p>
-          </m.div>
-        </AnimatePresence>
+        <p className="font-mono text-[10px] tracking-wide text-neutral-500">{stageLabel}</p>
 
-        <div className="relative mt-4 min-h-[280px] sm:min-h-[320px]">
+        <div className="relative mt-3 min-h-[280px] sm:min-h-[300px]">
           <AnimatePresence mode="wait">
-            <m.div key={state} className="absolute inset-0 flex flex-col justify-center" {...stateFade}>
+            <m.div
+              key={state}
+              className="absolute inset-0 flex flex-col justify-center"
+              {...stageFade}
+            >
               <ActiveState />
             </m.div>
           </AnimatePresence>
         </div>
 
-        <JourneyProgress activeIndex={state} onSelect={jumpToState} />
+        <AnimatePresence>
+          {blackout ? (
+            <m.div
+              key="blackout"
+              className="pointer-events-none absolute inset-0 z-50 bg-black"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              aria-hidden
+            />
+          ) : null}
+        </AnimatePresence>
       </div>
     </LazyMotion>
   );

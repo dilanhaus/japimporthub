@@ -1,29 +1,30 @@
 "use client";
 
-export const STATE_COUNT = 7;
+export const STATE_COUNT = 5;
 
-/** Per-state hold duration before advancing (~23s total loop) */
-export const STATE_DURATIONS_MS = [3500, 3500, 3000, 2800, 2500, 3500, 4000] as const;
+export const STATE_DURATIONS_MS = [3500, 3500, 3000, 3500, 4000] as const;
+
+export const LOOP_BLACKOUT_MS = 450;
 
 export const JOURNEY_STAGES = [
   { label: "01 — Post your request" },
-  { label: "02 — Dealers compete for your request" },
-  { label: "03 — Choose your dealer", labelAccepted: "03 — Quote accepted" },
-  { label: "04 — Documents verified" },
-  { label: "05 — Deposit held securely" },
-  { label: "06 — Track your shipment live" },
-  { label: "07 — Delivered to your door" },
+  { label: "02 — Quotes arriving" },
+  { label: "03 — Verified & secured" },
+  { label: "04 — Your car is on its way" },
+  { label: "05 — Delivered to your door" },
 ] as const;
 
 export const VEHICLE = {
   name: "Nissan Skyline R33",
   budget: "£30,000",
-  deliveryEta: "Thursday 14 August",
 } as const;
+
+export const DELIVERY_IMAGE =
+  "https://images.unsplash.com/photo-1748878665811-a3dd0b16e3b8?auto=format&fit=crop&w=1600&q=85";
 
 export const REQUEST_FIELDS = [
   { label: "Make / Model", value: "Nissan Skyline R33", mono: false },
-  { label: "Colour preference", value: "Blue or Black", mono: false },
+  { label: "Colour", value: "Blue or Black", mono: false },
   { label: "Max mileage", value: "100,000 km", mono: true },
   { label: "Budget", value: "£30,000", mono: true },
 ] as const;
@@ -41,7 +42,7 @@ export const DEMO_QUOTES = [
     id: "jdm",
     dealer: "JDM Direct UK",
     rating: 4.7,
-    price: "£29,100",
+    price: "£29,900",
     eta: "8 weeks",
     grade: "4.0",
   },
@@ -49,7 +50,7 @@ export const DEMO_QUOTES = [
     id: "sakura",
     dealer: "Sakura Motors",
     rating: 4.8,
-    price: "£30,200",
+    price: "£31,200",
     eta: "10 weeks",
     grade: "4.5",
   },
@@ -78,7 +79,6 @@ export const DOCUMENTS = [
   },
 ] as const;
 
-/** Shipping tracker: vessel travels between these milestone indices */
 export const SHIP_ROUTE = { fromIndex: 2, toIndex: 4 } as const;
 export const SHIP_TRAVEL_DURATION_S = 3.5;
 
@@ -92,15 +92,18 @@ export const SHIPPING_MILESTONES = [
   { id: "delivered", label: "Delivered", status: "pending" as const },
 ] as const;
 
-export const stateFade = {
-  initial: { opacity: 0, y: 10 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -8 },
-  transition: { duration: 0.38, ease: [0.22, 1, 0.36, 1] as const },
+export const SHIPPING_SUBLINE = "MV Pacific Highway · ETA Southampton · 18 Jun";
+
+/** Soft crossfade between stages — no hard cuts */
+export const stageFade = {
+  initial: { opacity: 0, y: 8, filter: "blur(4px)" },
+  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+  exit: { opacity: 0, y: -6, filter: "blur(4px)" },
+  transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
 };
 
 export const staggerItem = {
-  initial: { opacity: 0, y: 12 },
+  initial: { opacity: 0, y: 10 },
   animate: { opacity: 1, y: 0 },
 };
 

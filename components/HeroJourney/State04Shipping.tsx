@@ -3,24 +3,27 @@
 import { m } from "framer-motion";
 import { Check, Ship } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { SHIP_ROUTE, SHIP_TRAVEL_DURATION_S, SHIPPING_MILESTONES } from "./shared";
+import {
+  SHIP_ROUTE,
+  SHIP_TRAVEL_DURATION_S,
+  SHIPPING_MILESTONES,
+  SHIPPING_SUBLINE,
+} from "./shared";
 
 function milestoneLeftPercent(index: number) {
   return (index / (SHIPPING_MILESTONES.length - 1)) * 100;
 }
 
-export function State06ShippingTracker() {
+export function State04Shipping() {
   const fromPct = milestoneLeftPercent(SHIP_ROUTE.fromIndex);
   const toPct = milestoneLeftPercent(SHIP_ROUTE.toIndex);
   const travelWidth = toPct - fromPct;
 
   return (
-    <div className="w-full px-1">
-      <div className="relative pt-2 pb-2">
-        {/* Track background */}
+    <div className="w-full">
+      <div className="relative px-0.5 pt-2">
         <div className="absolute left-0 right-0 top-[1.125rem] h-0.5 rounded-full bg-neutral-800" aria-hidden />
 
-        {/* Fill grows behind the vessel */}
         <m.div
           className="absolute top-[1.125rem] h-0.5 rounded-full bg-[var(--red)]"
           style={{ left: `${fromPct}%` }}
@@ -30,7 +33,6 @@ export function State06ShippingTracker() {
           aria-hidden
         />
 
-        {/* Vessel travels Osaka → UK Port */}
         <m.div
           className="absolute top-2 z-20 -translate-x-1/2"
           initial={{ left: `${fromPct}%` }}
@@ -38,7 +40,7 @@ export function State06ShippingTracker() {
           transition={{ duration: SHIP_TRAVEL_DURATION_S, ease: "linear" }}
           aria-hidden
         >
-          <div className="flex size-7 items-center justify-center rounded-full border border-[var(--red)]/60 bg-[var(--surface)] shadow-[0_0_16px_rgba(225,29,46,0.35)]">
+          <div className="flex size-7 items-center justify-center rounded-full border border-[var(--red)]/60 bg-[var(--surface)] shadow-[0_0_16px_rgba(225,29,46,0.4)]">
             <Ship className="size-3.5 text-[var(--red)]" aria-hidden />
           </div>
         </m.div>
@@ -91,6 +93,15 @@ export function State06ShippingTracker() {
           })}
         </ol>
       </div>
+
+      <m.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4, duration: 0.4 }}
+        className="mt-6 text-center text-xs text-[var(--text-secondary)]"
+      >
+        {SHIPPING_SUBLINE}
+      </m.p>
     </div>
   );
 }
