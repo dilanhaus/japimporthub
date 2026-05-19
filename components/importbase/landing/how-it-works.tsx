@@ -10,7 +10,7 @@ export function HowItWorksSection() {
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           eyebrow="Process"
-          title="How GradeFive Works"
+          title="How Grade Five Works"
           description="A marketplace built for clarity — from your first post to your car on UK soil."
         />
         <HorizontalSteps />

@@ -6,7 +6,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="border-b border-border/80 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-lg items-center px-4">
           <Link href="/" className="text-sm font-semibold tracking-tight text-foreground">
-            Jap Import UK
+            Grade Five
           </Link>
         </div>
       </div>

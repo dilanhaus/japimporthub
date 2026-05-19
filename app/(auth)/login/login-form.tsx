@@ -113,7 +113,7 @@ export function LoginForm() {
             Try admin dashboard (demo)
           </Button>
           <p className="text-center text-sm text-muted-foreground">
-            New to Jap Import UK?{" "}
+            New to Grade Five?{" "}
             <Link href="/signup" className="font-medium text-foreground underline-offset-4 hover:underline">
               Create an account
             </Link>

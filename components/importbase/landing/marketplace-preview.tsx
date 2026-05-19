@@ -26,7 +26,7 @@ export function MarketplacePreviewSection() {
             <div className="size-2.5 rounded-full bg-[var(--red)]" aria-hidden />
             <div className="size-2.5 rounded-full bg-neutral-600" aria-hidden />
             <div className="size-2.5 rounded-full bg-neutral-600" aria-hidden />
-            <span className="ml-2 text-xs text-[var(--text-secondary)]">GradeFive · Request #G5-2847</span>
+            <span className="ml-2 text-xs text-[var(--text-secondary)]">Grade Five · Request #G5-2847</span>
           </div>
 
           <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_1.2fr]">

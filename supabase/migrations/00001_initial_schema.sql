@@ -1,4 +1,4 @@
--- Jap Import UK — initial schema (MVP)
+-- Grade Five — initial schema (MVP)
 -- Run in Supabase SQL Editor or via `supabase db push`
 
 create extension if not exists "uuid-ossp";

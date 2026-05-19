@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { BRAND_DISPLAY, BRAND_MONOGRAM } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
@@ -8,9 +9,9 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="group flex items-center gap-2.5">
           <span className="flex size-8 items-center justify-center rounded-lg bg-[var(--red)] ring-1 ring-[var(--red)]/50">
-            <span className="text-[10px] font-bold tracking-tighter text-white">G5</span>
+            <span className="text-[10px] font-bold tracking-tighter text-white">{BRAND_MONOGRAM}</span>
           </span>
-          <span className="text-sm font-semibold tracking-tight text-[var(--text-primary)]">GradeFive</span>
+          <span className="text-sm font-semibold tracking-tight text-[var(--text-primary)]">{BRAND_DISPLAY}</span>
         </Link>
         <nav className="flex items-center gap-1 sm:gap-2">
           <Link

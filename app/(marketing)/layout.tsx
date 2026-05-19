@@ -1,10 +1,23 @@
+import type { Metadata } from "next";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { SiteHeader } from "@/components/marketing/site-header";
+import { BRAND_DISPLAY } from "@/lib/brand";
 
 /**
  * Marketing routes use a scoped `.gradefive-theme` so the landing stays premium + dark
  * without forcing the theme on the signed-in app shell.
  */
+export const metadata: Metadata = {
+  title: {
+    default: BRAND_DISPLAY,
+    template: `%s — ${BRAND_DISPLAY}`,
+  },
+  openGraph: {
+    siteName: BRAND_DISPLAY,
+    title: BRAND_DISPLAY,
+  },
+};
+
 export default function MarketingLayout({
   children,
 }: {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BRAND_DISPLAY, BRAND_MONOGRAM } from "@/lib/brand";
 
 const links = [
   { label: "Privacy", href: "#" },
@@ -15,9 +16,9 @@ export function SiteFooter() {
           <div>
             <div className="flex items-center gap-2.5">
               <span className="flex size-8 items-center justify-center rounded-lg bg-[var(--red)]">
-                <span className="text-[10px] font-bold text-white">G5</span>
+                <span className="text-[10px] font-bold text-white">{BRAND_MONOGRAM}</span>
               </span>
-              <span className="text-sm font-semibold text-[var(--text-primary)]">GradeFive</span>
+              <span className="text-sm font-semibold text-[var(--text-primary)]">{BRAND_DISPLAY}</span>
             </div>
             <p className="mt-2 text-sm font-medium text-[var(--text-secondary)]">
               Trusted Japanese Import Marketplace
@@ -45,7 +46,7 @@ export function SiteFooter() {
           IOR, duty, and VAT responsibilities in writing before you commit.
         </p>
         <p className="mt-6 border-t border-neutral-800 pt-8 text-xs text-[var(--text-secondary)]">
-          © {new Date().getFullYear()} GradeFive. All rights reserved.
+          © {new Date().getFullYear()} {BRAND_DISPLAY}. All rights reserved.
         </p>
       </div>
     </footer>

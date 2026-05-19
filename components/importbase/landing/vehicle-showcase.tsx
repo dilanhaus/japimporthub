@@ -6,7 +6,7 @@ export function VehicleShowcaseSection() {
     <section className="border-y border-neutral-800 bg-[var(--surface)]/30 py-6">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <p className="mb-4 text-center text-[10px] font-semibold uppercase tracking-[0.25em] text-[var(--text-secondary)]">
-          Iconic Japanese imports on GradeFive
+          Iconic Japanese imports on Grade Five
         </p>
         <div className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {SHOWCASE_VEHICLES.map((vehicle) => (

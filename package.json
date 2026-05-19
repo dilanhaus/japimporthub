@@ -1,7 +1,8 @@
 {
-  "name": "jap-import-base",
+  "name": "gradefive-web",
   "version": "0.1.0",
   "private": true,
+  "description": "Grade Five — Trusted Japanese vehicle import marketplace",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

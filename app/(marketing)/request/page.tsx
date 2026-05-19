@@ -11,7 +11,7 @@ export default function RequestPage() {
           className="mb-8 inline-flex items-center text-sm text-zinc-400 transition-colors hover:text-white"
         >
           <ArrowLeft className="mr-1 size-4" />
-          Back to GradeFive
+          Back to Grade Five
         </Link>
         <PublicRequestForm />
       </div>

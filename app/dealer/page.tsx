@@ -10,7 +10,7 @@ export default function DealerHomePage() {
         <CardHeader>
           <CardTitle>Welcome, verified exporter</CardTitle>
           <CardDescription>
-            GradeFive connects you with UK buyers posting structured vehicle requests. Submit itemised quotes
+            Grade Five connects you with UK buyers posting structured vehicle requests. Submit itemised quotes
             and build your reputation on-platform.
           </CardDescription>
         </CardHeader>

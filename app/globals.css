@@ -117,7 +117,7 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* GradeFive marketing theme (scoped via .gradefive-theme) */
+/* Grade Five marketing theme (scoped via .gradefive-theme) */
 .gradefive-theme {
   --bg: #0b0d10;
   --surface: #121418;

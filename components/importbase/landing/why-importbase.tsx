@@ -62,7 +62,7 @@ export function WhyGradeFiveSection() {
         <div className="grid items-start gap-12 lg:grid-cols-[1fr_1.1fr]">
           <div>
             <SectionHeading
-              eyebrow="Why GradeFive"
+              eyebrow="Why Grade Five"
               title="Built around trust and transparency"
               description="Professional importing with documentation you can verify — not opaque broker chains."
             />

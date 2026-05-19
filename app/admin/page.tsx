@@ -12,7 +12,7 @@ export default async function AdminHomePage() {
   return (
     <div className="mx-auto max-w-5xl space-y-10">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">GradeFive Admin</h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground">Grade Five Admin</h1>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Verification workflows, moderation, and marketplace operations — MVP placeholders until backend is
           connected.
