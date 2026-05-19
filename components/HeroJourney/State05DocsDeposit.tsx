@@ -1,20 +1,43 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { m } from "framer-motion";
 import { Shield } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { AnimatedCheckmark } from "./AnimatedCheckmark";
 import { DocumentStack } from "./DocumentStack";
+import type { StageLifecycleProps } from "./stage-lifecycle";
 import { MonoValue, VEHICLE } from "./shared";
 
-export function State05DocsDeposit() {
+const DOCS_READY_MS = 900;
+const DEPOSIT_TICK_MS = 1000;
+const SEQUENCE_END_MS = 2200;
+
+export function State05DocsDeposit({ onContentReady, onSequenceComplete }: StageLifecycleProps) {
+  const contentReadyFired = useRef(false);
+  const sequenceCompleteFired = useRef(false);
+
   const [showTick, setShowTick] = useState(false);
 
   useEffect(() => {
-    const id = window.setTimeout(() => setShowTick(true), 1000);
-    return () => window.clearTimeout(id);
-  }, []);
+    const timers: number[] = [];
+    timers.push(
+      window.setTimeout(() => {
+        if (contentReadyFired.current) return;
+        contentReadyFired.current = true;
+        onContentReady?.();
+      }, DOCS_READY_MS),
+    );
+    timers.push(window.setTimeout(() => setShowTick(true), DEPOSIT_TICK_MS));
+    timers.push(
+      window.setTimeout(() => {
+        if (sequenceCompleteFired.current) return;
+        sequenceCompleteFired.current = true;
+        onSequenceComplete?.();
+      }, SEQUENCE_END_MS),
+    );
+    return () => timers.forEach((id) => window.clearTimeout(id));
+  }, [onContentReady, onSequenceComplete]);
 
   return (
     <div className="grid items-stretch gap-0 md:grid-cols-2">

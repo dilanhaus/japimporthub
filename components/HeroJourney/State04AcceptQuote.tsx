@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
 import { QuoteCard } from "./QuoteCard";
 import { SimulatedCursor } from "./SimulatedCursor";
+import type { StageLifecycleProps } from "./stage-lifecycle";
 import { DEMO_QUOTES, SELECTED_QUOTE_INDEX } from "./shared";
 
 const BURST_PARTICLES = Array.from({ length: 8 }, (_, i) => ({
@@ -13,8 +14,17 @@ const BURST_PARTICLES = Array.from({ length: 8 }, (_, i) => ({
 
 type Phase = "idle" | "cursor" | "pause" | "click" | "accepted";
 
-export function State04AcceptQuote() {
+export function State04AcceptQuote({ onContentReady, onSequenceComplete }: StageLifecycleProps) {
+  const contentReadyFired = useRef(false);
+  const sequenceCompleteFired = useRef(false);
+
   const [phase, setPhase] = useState<Phase>("idle");
+
+  useEffect(() => {
+    if (contentReadyFired.current) return;
+    contentReadyFired.current = true;
+    onContentReady?.();
+  }, [onContentReady]);
 
   useEffect(() => {
     const timers: number[] = [];
@@ -22,8 +32,15 @@ export function State04AcceptQuote() {
     timers.push(window.setTimeout(() => setPhase("pause"), 1200));
     timers.push(window.setTimeout(() => setPhase("click"), 1600));
     timers.push(window.setTimeout(() => setPhase("accepted"), 1850));
+    timers.push(
+      window.setTimeout(() => {
+        if (sequenceCompleteFired.current) return;
+        sequenceCompleteFired.current = true;
+        onSequenceComplete?.();
+      }, 3200),
+    );
     return () => timers.forEach((id) => window.clearTimeout(id));
-  }, []);
+  }, [onSequenceComplete]);
 
   const accepted = phase === "accepted";
   const clicking = phase === "click";
@@ -114,6 +131,7 @@ export function State04AcceptQuote() {
       </div>
 
       <SimulatedCursor
+        mode="percent"
         visible={showCursor}
         clicking={clicking}
         transitionDuration={phase === "cursor" ? 0.7 : 0.15}

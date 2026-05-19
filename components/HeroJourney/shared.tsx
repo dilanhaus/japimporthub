@@ -2,9 +2,11 @@
 
 export const STATE_COUNT = 6;
 
-export const STATE_DURATIONS_MS = [4000, 5000, 3500, 3500, 3500, 4500] as const;
+/** Minimum hold after onContentReady before advancing (ms) */
+export const STATE_DURATIONS_MS = [5500, 7000, 11000, 5000, 6000, 7000] as const;
 
-export const LOOP_BLACKOUT_MS = 600;
+export const LOOP_BLACKOUT_MS = 800;
+export const LOOP_PAUSE_MS = 300;
 
 export const STAGE_COPY = [
   {
@@ -140,6 +142,11 @@ export const DOCUMENTS = [
 export const SHIP_ROUTE = { fromIndex: 2, toIndex: 4 } as const;
 export const SHIP_TRAVEL_DURATION_S = 2;
 
+/** Stage 6 phase lengths (ms) */
+export const STAGE6_TRACKING_MS = 3500;
+export const STAGE6_TRACKING_FADE_MS = 400;
+export const STAGE6_DELIVERY_HOLD_MS = 4500;
+
 export const SHIPPING_MILESTONES = [
   { id: "auction", label: "Auction Won", status: "done" as const },
   { id: "export", label: "Export Approved", status: "done" as const },
@@ -150,8 +157,7 @@ export const SHIPPING_MILESTONES = [
   { id: "delivered", label: "Delivered", status: "pending" as const },
 ] as const;
 
-export const SHIPPING_SUBLINE =
-  "MV Pacific Highway · Departed Osaka 12 May · ETA Southampton 18 Jun";
+export const SHIPPING_SUBLINE = "MV Pacific Highway · ETA Southampton 18 Jun";
 
 export const stageFade = {
   initial: { opacity: 0, y: 8, filter: "blur(4px)" },

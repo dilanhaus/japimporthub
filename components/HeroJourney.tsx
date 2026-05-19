@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { State01PostRequest } from "./HeroJourney/State01PostRequest";
@@ -9,6 +9,7 @@ import { State03Messaging } from "./HeroJourney/State03Messaging";
 import { State04AcceptQuote } from "./HeroJourney/State04AcceptQuote";
 import { State05DocsDeposit } from "./HeroJourney/State05DocsDeposit";
 import { State06ShippingDelivered } from "./HeroJourney/State06ShippingDelivered";
+import type { StageLifecycleProps } from "./HeroJourney/stage-lifecycle";
 import {
   LOOP_BLACKOUT_MS,
   REQUEST_FIELDS,
@@ -35,8 +36,47 @@ export function HeroJourney({ className }: HeroJourneyProps) {
   const [state, setState] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [blackout, setBlackout] = useState(false);
+  const [contentReady, setContentReady] = useState(false);
+
+  const sequenceCompleteRef = useRef(false);
+  const holdElapsedRef = useRef(false);
 
   const copy = STAGE_COPY[state];
+
+  const tryAdvance = useCallback(() => {
+    if (!contentReady || !sequenceCompleteRef.current || !holdElapsedRef.current) {
+      return;
+    }
+    if (state === STATE_COUNT - 1) return;
+    setState((current) => current + 1);
+  }, [contentReady, state]);
+
+  const resetLifecycle = useCallback(() => {
+    sequenceCompleteRef.current = false;
+    holdElapsedRef.current = false;
+    setContentReady(false);
+  }, []);
+
+  const handleContentReady = useCallback(() => {
+    setContentReady(true);
+  }, []);
+
+  const handleSequenceComplete = useCallback(() => {
+    sequenceCompleteRef.current = true;
+    tryAdvance();
+  }, [tryAdvance]);
+
+  const handleLoopFadeStart = useCallback(() => {
+    setBlackout(true);
+  }, []);
+
+  const handleStage6Complete = useCallback(() => {
+    sequenceCompleteRef.current = true;
+    holdElapsedRef.current = true;
+    setBlackout(false);
+    setState(0);
+    resetLifecycle();
+  }, [resetLifecycle]);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -47,29 +87,29 @@ export function HeroJourney({ className }: HeroJourneyProps) {
   }, []);
 
   useEffect(() => {
-    if (reducedMotion) return;
+    resetLifecycle();
+    setBlackout(false);
+  }, [state, resetLifecycle]);
 
-    const duration = STATE_DURATIONS_MS[state] ?? 4000;
+  useEffect(() => {
+    if (reducedMotion || !contentReady) return;
 
-    if (state === STATE_COUNT - 1) {
-      const blackoutAt = duration - LOOP_BLACKOUT_MS;
-      const startBlack = window.setTimeout(() => setBlackout(true), blackoutAt);
-      const advance = window.setTimeout(() => {
-        setBlackout(false);
-        setState(0);
-      }, duration);
-      return () => {
-        window.clearTimeout(startBlack);
-        window.clearTimeout(advance);
-      };
-    }
+    const holdMs = STATE_DURATIONS_MS[state] ?? 5000;
 
-    const id = window.setTimeout(() => {
-      setState((current) => current + 1);
-    }, duration);
+    const holdId = window.setTimeout(() => {
+      holdElapsedRef.current = true;
+      if (state === STATE_COUNT - 1) return;
+      tryAdvance();
+    }, holdMs);
 
-    return () => window.clearTimeout(id);
-  }, [state, reducedMotion]);
+    return () => window.clearTimeout(holdId);
+  }, [state, contentReady, reducedMotion, tryAdvance]);
+
+  const lifecycleProps: StageLifecycleProps = {
+    onContentReady: handleContentReady,
+    onSequenceComplete: state === STATE_COUNT - 1 ? handleStage6Complete : handleSequenceComplete,
+    onLoopFadeStart: state === STATE_COUNT - 1 ? handleLoopFadeStart : undefined,
+  };
 
   const ActiveState = STATES[state];
 
@@ -141,7 +181,7 @@ export function HeroJourney({ className }: HeroJourneyProps) {
         >
           <AnimatePresence mode="wait">
             <m.div key={state} className="absolute inset-0 flex flex-col justify-center" {...stageFade}>
-              <ActiveState />
+              <ActiveState {...lifecycleProps} />
             </m.div>
           </AnimatePresence>
         </div>
@@ -154,7 +194,7 @@ export function HeroJourney({ className }: HeroJourneyProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.92 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
+              transition={{ duration: LOOP_BLACKOUT_MS / 1000, ease: "easeInOut" }}
               aria-hidden
             />
           ) : null}
