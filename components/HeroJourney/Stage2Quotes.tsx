@@ -2,7 +2,8 @@
 
 import { m } from "framer-motion";
 import { CheckCircle2, Star } from "lucide-react";
-import { fadeSlide, MonoValue } from "./shared";
+import { cn } from "@/lib/utils";
+import { fadeSlide, MonoValue, STAGE_SCENE_PT } from "./shared";
 
 const QUOTES = [
   { dealer: "Tokyo Auto Exports", price: "£28,400", rating: "4.9" },
@@ -12,7 +13,7 @@ const QUOTES = [
 
 export function Stage2Quotes() {
   return (
-    <m.div className="flex h-full flex-col px-4 py-6 sm:px-8" {...fadeSlide}>
+    <m.div className={cn("flex h-full flex-col px-4 pb-6 sm:px-8", STAGE_SCENE_PT)} {...fadeSlide}>
       <m.div
         initial={{ scale: 1, y: 0 }}
         animate={{ scale: 0.85, y: -4 }}

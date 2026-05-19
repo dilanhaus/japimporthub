@@ -3,11 +3,15 @@
 import Image from "next/image";
 import { m } from "framer-motion";
 import { Check } from "lucide-react";
-import { fadeSlide } from "./shared";
+import { cn } from "@/lib/utils";
+import { fadeSlide, STAGE_SCENE_PT } from "./shared";
 
 export function Stage4Delivered() {
   return (
-    <m.div className="relative flex h-full flex-col items-center justify-center px-4 py-6" {...fadeSlide}>
+    <m.div
+      className={cn("relative flex h-full flex-col items-center justify-center px-4 pb-6", STAGE_SCENE_PT)}
+      {...fadeSlide}
+    >
       <m.div
         initial={{ opacity: 0, y: 24, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -30,7 +34,7 @@ export function Stage4Delivered() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.35, duration: 0.35 }}
-          className="absolute right-4 top-4 flex items-center gap-1.5 rounded-full border border-[var(--red)]/40 bg-[var(--red)] px-3 py-1.5 text-xs font-semibold text-white shadow-lg"
+          className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full border border-[var(--red)]/40 bg-[var(--red)] px-3 py-1.5 text-xs font-semibold text-white shadow-lg"
         >
           <Check className="size-3.5" aria-hidden />
           Delivered

@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { STAGE_CAPTIONS } from "./HeroJourney/shared";
+import { STAGE_COUNT, STAGE_META } from "./HeroJourney/shared";
+import { StageHeader } from "./HeroJourney/StageHeader";
 import { Stage1Request } from "./HeroJourney/Stage1Request";
 import { Stage2Quotes } from "./HeroJourney/Stage2Quotes";
 import { Stage3Milestones } from "./HeroJourney/Stage3Milestones";
@@ -46,6 +47,7 @@ export function HeroJourney({ className }: HeroJourneyProps) {
   }, []);
 
   const ActiveStage = STAGES[stage];
+  const meta = STAGE_META[stage];
 
   if (reducedMotion) {
     return (
@@ -56,7 +58,7 @@ export function HeroJourney({ className }: HeroJourneyProps) {
           className,
         )}
       >
-        <div className="flex h-full flex-col items-center justify-center p-6">
+        <div className="flex h-full flex-col p-6 md:p-8">
           <div className="w-full max-w-md rounded-xl border border-neutral-800 bg-[var(--bg)] p-5">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--text-secondary)]">
               Your request
@@ -72,9 +74,16 @@ export function HeroJourney({ className }: HeroJourneyProps) {
               </li>
             </ul>
           </div>
-          <ol className="mt-8 w-full max-w-md space-y-2 text-left text-sm text-[var(--text-secondary)]">
-            {STAGE_CAPTIONS.map((caption) => (
-              <li key={caption}>{caption}</li>
+          <ol className="mt-8 space-y-6">
+            {STAGE_META.map((item, i) => (
+              <li key={item.title}>
+                <p className="font-mono text-xs text-[var(--text-secondary)]">
+                  {String(i + 1).padStart(2, "0")} / {String(STAGE_COUNT).padStart(2, "0")}
+                </p>
+                <div className="mb-2 mt-2 h-1 w-8 rounded-full bg-[var(--red)]" />
+                <p className="text-lg font-bold tracking-tight text-[var(--text-primary)]">{item.title}</p>
+                <p className="mt-1 text-sm text-[var(--text-secondary)]">{item.subtitle}</p>
+              </li>
             ))}
           </ol>
         </div>
@@ -94,31 +103,40 @@ export function HeroJourney({ className }: HeroJourneyProps) {
         aria-label="How Grade Five works"
         aria-roledescription="carousel"
       >
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-32 bg-gradient-to-b from-[var(--surface)] via-[var(--surface)]/80 to-transparent"
+        />
+
         <AnimatePresence mode="wait">
-          <m.div key={stage} className="absolute inset-0">
+          <StageHeader
+            key={`header-${stage}`}
+            stageNumber={stage + 1}
+            totalStages={STAGE_COUNT}
+            title={meta.title}
+            subtitle={meta.subtitle}
+            reducedMotion={reducedMotion}
+          />
+        </AnimatePresence>
+
+        <AnimatePresence mode="wait">
+          <m.div key={`scene-${stage}`} className="absolute inset-0">
             <ActiveStage />
           </m.div>
         </AnimatePresence>
-
-        <p
-          className="pointer-events-none absolute bottom-14 left-0 right-0 z-20 px-4 text-center text-sm text-[var(--text-secondary)]"
-          aria-live="polite"
-        >
-          {STAGE_CAPTIONS[stage]}
-        </p>
 
         <div
           className="absolute bottom-4 left-0 right-0 z-30 flex items-center justify-center gap-2"
           role="tablist"
           aria-label="Journey steps"
         >
-          {STAGE_CAPTIONS.map((_, i) => (
+          {STAGE_META.map((item, i) => (
             <button
-              key={i}
+              key={item.title}
               type="button"
               role="tab"
               aria-selected={stage === i}
-              aria-label={`Step ${i + 1}`}
+              aria-label={`Step ${i + 1}: ${item.title}`}
               onClick={() => jumpToStage(i)}
               className={cn(
                 "h-2 rounded-full transition-all duration-300",

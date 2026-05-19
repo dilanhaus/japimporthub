@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { m } from "framer-motion";
-import { fadeSlide, MonoValue } from "./shared";
+import { cn } from "@/lib/utils";
+import { fadeSlide, MonoValue, STAGE_SCENE_PT } from "./shared";
 
 const LINES = [
   { label: "Car", value: "Nissan Skyline R33" },
@@ -26,7 +27,7 @@ export function Stage1Request() {
 
   return (
     <m.div
-      className="flex h-full flex-col items-center justify-center px-6 py-8"
+      className={cn("flex h-full flex-col items-center justify-center px-6 pb-8", STAGE_SCENE_PT)}
       {...fadeSlide}
     >
       <div className="w-full max-w-md rounded-xl border border-neutral-800 bg-[var(--bg)] p-5 shadow-lg">

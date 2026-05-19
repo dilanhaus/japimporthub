@@ -14,13 +14,8 @@ export function HeroSection() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-[var(--surface)] px-3 py-1 text-xs font-medium text-[var(--text-secondary)]">
-            <span className="size-1.5 rounded-full bg-[var(--red)] shadow-[0_0_8px_rgba(225,29,46,0.6)]" />
-            Verified Japanese dealers · UK delivery
-          </p>
-
-          <h1 className="mt-6 text-4xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-5xl sm:leading-[1.08]">
-            Tell us the Japanese car you want. We handle the rest.
+          <h1 className="text-4xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-5xl sm:leading-[1.08]">
+            Your dream Japanese car, imported without the guesswork.
           </h1>
 
           <p className="mt-5 text-lg leading-relaxed text-[var(--text-secondary)]">

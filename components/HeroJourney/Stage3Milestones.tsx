@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { m } from "framer-motion";
-import { fadeSlide } from "./shared";
+import { cn } from "@/lib/utils";
+import { fadeSlide, STAGE_SCENE_PT } from "./shared";
 
 const MILESTONES = [
   { icon: "🇯🇵", label: "Auction won" },
@@ -30,7 +31,10 @@ export function Stage3Milestones() {
   }, []);
 
   return (
-    <m.div className="flex h-full flex-col items-center justify-center px-4 py-8 sm:px-10" {...fadeSlide}>
+    <m.div
+      className={cn("flex h-full flex-col items-center justify-center px-4 pb-8 sm:px-10", STAGE_SCENE_PT)}
+      {...fadeSlide}
+    >
       <m.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
