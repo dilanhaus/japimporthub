@@ -9,7 +9,7 @@ function isDemoAuthed(request: NextRequest) {
   return role === "customer" || role === "admin";
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   if (path.startsWith("/api")) {
