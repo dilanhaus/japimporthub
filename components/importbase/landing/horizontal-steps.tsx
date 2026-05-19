@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import { FileText, GitCompare, MessageCircle, Truck } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -44,94 +43,83 @@ const DEFAULT_STEPS: HorizontalStep[] = [
   },
 ];
 
+function StepIcon({ icon: Icon }: { icon: LucideIcon }) {
+  return (
+    <div
+      className="relative z-10 mx-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-neutral-700 bg-[var(--surface)]"
+    >
+      <Icon className="size-4 text-[var(--red)]" strokeWidth={1.5} aria-hidden />
+    </div>
+  );
+}
+
 type HorizontalStepsProps = {
   steps?: HorizontalStep[];
   className?: string;
 };
 
 export function HorizontalSteps({ steps = DEFAULT_STEPS, className }: HorizontalStepsProps) {
-  const [activeId, setActiveId] = useState<string | null>(null);
-
-  const setActive = useCallback((id: string | null) => {
-    setActiveId(id);
-  }, []);
-
   return (
     <div className={cn("mt-16", className)}>
-      <div className="relative mx-auto w-full overflow-x-auto snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:overflow-visible">
-        <ol className="flex min-w-max items-start gap-8 px-4 md:min-w-0 md:gap-12 md:px-0">
-          {steps.map((step, index) => {
-            const isActive = activeId === step.id;
-            const Icon = step.icon;
-            const isLast = index === steps.length - 1;
+      {/* Desktop: equal flex columns; each cell draws half the connector to its neighbour */}
+      <ol className="relative hidden w-full md:flex">
+        {steps.map((step, index) => {
+          const isFirst = index === 0;
+          const isLast = index === steps.length - 1;
+          return (
+            <li key={step.id} className="relative flex min-w-0 flex-1 flex-col px-3 first:pl-0 last:pr-0">
+              {!isFirst && (
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute left-0 right-1/2 top-4 h-px bg-neutral-700"
+                />
+              )}
+              {!isLast && (
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute left-1/2 right-0 top-4 h-px bg-neutral-700"
+                />
+              )}
+              <StepIcon icon={step.icon} />
+              <p className="mt-5 font-mono text-xs tracking-widest text-[var(--text-secondary)]">
+                {step.number}
+              </p>
+              <h3 className="mt-2 text-base font-semibold leading-snug text-[var(--text-primary)]">
+                {step.label}
+              </h3>
+              <p className="mt-2 min-h-[4.75rem] text-sm leading-relaxed text-[var(--text-secondary)]">
+                {step.help}
+              </p>
+            </li>
+          );
+        })}
+      </ol>
 
-            return (
-              <li
-                key={step.id}
-                tabIndex={0}
-                className={cn(
-                  "group/step relative snap-start min-w-[220px] outline-none md:min-w-0 md:flex-1",
-                  !isLast &&
-                    "md:after:absolute md:after:top-4 md:after:left-[calc(50%+1rem)] md:after:right-[calc(-50%+1rem)] md:after:z-0 md:after:h-[2px] md:after:bg-neutral-800 md:after:content-['']",
-                  isActive && "md:after:bg-[var(--red)]/40",
-                )}
-                onMouseEnter={() => setActive(step.id)}
-                onMouseLeave={() => setActive(null)}
-                onFocus={() => setActive(step.id)}
-                onBlur={() => setActive(null)}
-                aria-current={isActive ? "step" : undefined}
-              >
-                <div className="relative z-10 flex flex-col items-start">
-                  <div
-                    className={cn(
-                      "relative flex h-8 w-8 items-center justify-center rounded-full border border-neutral-700 bg-[var(--surface)] text-[var(--text-secondary)] transition-colors",
-                      "group-hover/step:border-[var(--red)]/50 group-hover/step:text-[var(--text-primary)] group-focus-visible/step:border-[var(--red)]/50 group-focus-visible/step:text-[var(--text-primary)]",
-                      isActive && "border-[var(--red)]/60 text-[var(--text-primary)]",
-                    )}
-                  >
-                    <Icon className="size-4" strokeWidth={1.5} aria-hidden />
-                    <span
-                      className={cn(
-                        "absolute -bottom-1 -right-1 h-2 w-2 rounded-full bg-[var(--red)] transition-transform",
-                        isActive ? "scale-125" : "scale-100",
-                      )}
-                      aria-hidden
-                    />
-                  </div>
-
-                  <p className="mt-4 font-mono text-xs tracking-widest text-[var(--text-secondary)] group-hover/step:text-[var(--text-primary)] group-focus-visible/step:text-[var(--text-primary)]">
-                    {step.number}
-                  </p>
-                  <h3
-                    className={cn(
-                      "mt-2 text-sm font-semibold text-[var(--text-secondary)] transition-colors md:text-base",
-                      "group-hover/step:text-[var(--text-primary)] group-focus-visible/step:text-[var(--text-primary)]",
-                      isActive && "text-[var(--text-primary)]",
-                    )}
-                  >
-                    {step.label}
-                  </h3>
-                  <p className="mt-1 max-w-[220px] text-xs leading-relaxed text-[var(--text-secondary)] md:max-w-none">
-                    {step.help}
-                  </p>
-                </div>
-              </li>
-            );
-          })}
-        </ol>
-      </div>
-
-      <div className="mt-6 flex items-center justify-center gap-2 md:hidden" aria-hidden>
-        {steps.map((step) => (
-          <span
-            key={step.id}
-            className={cn(
-              "h-1.5 rounded-full bg-neutral-800 transition-all",
-              activeId === step.id ? "w-6 bg-[var(--red)]" : "w-1.5",
-            )}
-          />
-        ))}
-      </div>
+      {/* Mobile: vertical timeline */}
+      <ol className="relative space-y-0 md:hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute bottom-4 left-4 top-4 w-px bg-neutral-700"
+        />
+        {steps.map((step, index) => {
+          const isLast = index === steps.length - 1;
+          return (
+            <li
+              key={step.id}
+              className={cn("relative pl-12", !isLast && "pb-10")}
+            >
+              <div className="absolute left-0 top-0 z-10">
+                <StepIcon icon={step.icon} />
+              </div>
+              <p className="font-mono text-xs tracking-widest text-[var(--text-secondary)]">
+                {step.number}
+              </p>
+              <h3 className="mt-2 text-base font-semibold text-[var(--text-primary)]">{step.label}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">{step.help}</p>
+            </li>
+          );
+        })}
+      </ol>
     </div>
   );
 }

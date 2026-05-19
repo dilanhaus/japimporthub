@@ -40,8 +40,8 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="mx-auto mt-12 max-w-6xl md:mt-16">
-          <HeroJourney className="md:aspect-[2/1]" />
+        <div className="mt-10 w-full md:mt-12">
+          <HeroJourney className="mx-auto w-full max-w-6xl" />
         </div>
       </div>
     </section>
