@@ -2,13 +2,13 @@
 
 export const STATE_COUNT = 7;
 
-/** Per-state hold duration before advancing */
-export const STATE_DURATIONS_MS = [2500, 2500, 2200, 2500, 2200, 2500, 2500] as const;
+/** Per-state hold duration before advancing (~23s total loop) */
+export const STATE_DURATIONS_MS = [3500, 3500, 3000, 2800, 2500, 3500, 4000] as const;
 
 export const JOURNEY_STAGES = [
   { label: "01 — Post your request" },
   { label: "02 — Dealers compete for your request" },
-  { label: "03 — Choose your dealer" },
+  { label: "03 — Choose your dealer", labelAccepted: "03 — Quote accepted" },
   { label: "04 — Documents verified" },
   { label: "05 — Deposit held securely" },
   { label: "06 — Track your shipment live" },
@@ -31,7 +31,7 @@ export const REQUEST_FIELDS = [
 export const DEMO_QUOTES = [
   {
     id: "tokyo",
-    dealer: "Tokyo Export Co.",
+    dealer: "Tokyo Export Partners",
     rating: 4.9,
     price: "£28,400",
     eta: "9 weeks",
@@ -58,10 +58,29 @@ export const DEMO_QUOTES = [
 export const SELECTED_QUOTE_INDEX = 0;
 
 export const DOCUMENTS = [
-  { id: "auction", title: "Auction Sheet", badge: "Translated", badgeClass: "text-sky-400 border-sky-500/30 bg-sky-500/10" },
-  { id: "export", title: "Export Certificate", badge: "Verified", badgeClass: "text-[var(--red)] border-[var(--red)]/30 bg-[var(--red)]/10" },
-  { id: "inspection", title: "Inspection Report", badge: "Grade 4.5", badgeClass: "text-amber-400 border-amber-500/30 bg-amber-500/10" },
+  {
+    id: "auction",
+    title: "Auction Sheet",
+    badge: "Translated ✓",
+    badgeClass: "text-sky-300 border-sky-500/40 bg-sky-500/15 font-semibold",
+  },
+  {
+    id: "export",
+    title: "Export Certificate",
+    badge: "Verified ✓",
+    badgeClass: "text-emerald-300 border-emerald-500/40 bg-emerald-500/15 font-semibold",
+  },
+  {
+    id: "inspection",
+    title: "Inspection Report",
+    badge: "Grade 4.5 ✓",
+    badgeClass: "text-amber-300 border-amber-500/40 bg-amber-500/15 font-semibold",
+  },
 ] as const;
+
+/** Shipping tracker: vessel travels between these milestone indices */
+export const SHIP_ROUTE = { fromIndex: 2, toIndex: 4 } as const;
+export const SHIP_TRAVEL_DURATION_S = 3.5;
 
 export const SHIPPING_MILESTONES = [
   { id: "auction", label: "Auction Won", status: "done" as const },

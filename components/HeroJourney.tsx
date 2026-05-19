@@ -39,6 +39,7 @@ export function HeroJourney({ className }: HeroJourneyProps) {
   const [state, setState] = useState(0);
   const [pausedUntil, setPausedUntil] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [state3Accepted, setState3Accepted] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -63,8 +64,21 @@ export function HeroJourney({ className }: HeroJourneyProps) {
     setPausedUntil(Date.now() + PAUSE_MS);
   }, []);
 
+  useEffect(() => {
+    if (state !== 2) {
+      setState3Accepted(false);
+      return;
+    }
+    const id = window.setTimeout(() => setState3Accepted(true), 1500);
+    return () => window.clearTimeout(id);
+  }, [state]);
+
   const ActiveState = STATES[state];
-  const stageLabel = JOURNEY_STAGES[state]?.label ?? "";
+  const currentStage = JOURNEY_STAGES[state];
+  const stageLabel =
+    state === 2 && state3Accepted && currentStage && "labelAccepted" in currentStage
+      ? currentStage.labelAccepted
+      : (currentStage?.label ?? "");
 
   if (reducedMotion) {
     return (
@@ -111,19 +125,36 @@ export function HeroJourney({ className }: HeroJourneyProps) {
         aria-roledescription="carousel"
       >
         <AnimatePresence mode="wait">
-          <m.p
-            key={`label-${state}`}
+          <m.div
+            key={`label-${state}-${state3Accepted}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="font-mono text-[11px] tracking-wide text-[var(--text-secondary)]"
+            className="flex items-center gap-2"
           >
-            {stageLabel}
-          </m.p>
+            {state === 2 && state3Accepted ? (
+              <m.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="size-2 shrink-0 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.7)]"
+                aria-hidden
+              />
+            ) : null}
+            <p
+              className={cn(
+                "font-mono text-[11px] tracking-wide",
+                state === 2 && state3Accepted
+                  ? "text-emerald-400/90"
+                  : "text-[var(--text-secondary)]",
+              )}
+            >
+              {stageLabel}
+            </p>
+          </m.div>
         </AnimatePresence>
 
-        <div className="relative mt-4 min-h-[280px] sm:min-h-[300px]">
+        <div className="relative mt-4 min-h-[280px] sm:min-h-[320px]">
           <AnimatePresence mode="wait">
             <m.div key={state} className="absolute inset-0 flex flex-col justify-center" {...stateFade}>
               <ActiveState />

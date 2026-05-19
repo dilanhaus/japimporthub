@@ -13,6 +13,7 @@ type QuoteCardProps = {
   selected?: boolean;
   dimmed?: boolean;
   accepted?: boolean;
+  acceptedLabel?: string;
   className?: string;
 };
 
@@ -21,23 +22,32 @@ export function QuoteCard({
   selected = false,
   dimmed = false,
   accepted = false,
+  acceptedLabel = "Quote accepted",
   className,
 }: QuoteCardProps) {
   return (
     <m.article
       className={cn(
         "relative flex h-full flex-col rounded-xl border bg-[var(--bg)]/90 p-4",
-        selected
-          ? "border-[var(--red)]/50 shadow-[0_0_0_1px_rgba(225,29,46,0.25)]"
-          : "border-neutral-800/90",
-        dimmed && !selected && "opacity-50",
+        accepted
+          ? "border-emerald-400/70"
+          : selected
+            ? "border-[var(--red)]/50 shadow-[0_0_0_1px_rgba(225,29,46,0.25)]"
+            : "border-neutral-800/90",
+        dimmed && !selected && !accepted && "opacity-50",
         className,
       )}
     >
       {accepted ? (
-        <Badge className="absolute -top-2.5 right-3 border-emerald-500/40 bg-emerald-500/15 text-[10px] text-emerald-400">
-          Quote accepted
-        </Badge>
+        <m.div
+          initial={{ opacity: 0, y: -6, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Badge className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 border-emerald-400/50 bg-emerald-500/20 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-300 shadow-[0_0_20px_rgba(52,211,153,0.35)]">
+            {acceptedLabel}
+          </Badge>
+        </m.div>
       ) : null}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
