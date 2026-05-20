@@ -46,7 +46,7 @@ const DEFAULT_STEPS: HorizontalStep[] = [
 function StepIcon({ icon: Icon }: { icon: LucideIcon }) {
   return (
     <div
-      className="relative z-10 mx-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-neutral-700 bg-[var(--surface)]"
+      className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-neutral-700 bg-[var(--surface)]"
     >
       <Icon className="size-4 text-[var(--red)]" strokeWidth={1.5} aria-hidden />
     </div>
@@ -61,25 +61,17 @@ type HorizontalStepsProps = {
 export function HorizontalSteps({ steps = DEFAULT_STEPS, className }: HorizontalStepsProps) {
   return (
     <div className={cn("mt-16", className)}>
-      {/* Desktop: equal flex columns; each cell draws half the connector to its neighbour */}
+      {/* Desktop: single connector from first icon through end of row */}
       <ol className="relative hidden w-full md:flex">
-        {steps.map((step, index) => {
-          const isFirst = index === 0;
-          const isLast = index === steps.length - 1;
-          return (
-            <li key={step.id} className="relative flex min-w-0 flex-1 flex-col px-3 first:pl-0 last:pr-0">
-              {!isFirst && (
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute left-0 right-1/2 top-4 h-px bg-neutral-700"
-                />
-              )}
-              {!isLast && (
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute left-1/2 right-0 top-4 h-px bg-neutral-700"
-                />
-              )}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-4 right-0 top-4 z-0 h-px bg-neutral-700"
+        />
+        {steps.map((step) => (
+            <li
+              key={step.id}
+              className="relative flex min-w-0 flex-1 flex-col items-start px-3 first:pl-0 last:pr-0"
+            >
               <StepIcon icon={step.icon} />
               <p className="mt-5 font-mono text-xs tracking-widest text-[var(--text-secondary)]">
                 {step.number}
@@ -91,27 +83,24 @@ export function HorizontalSteps({ steps = DEFAULT_STEPS, className }: Horizontal
                 {step.help}
               </p>
             </li>
-          );
-        })}
+        ))}
       </ol>
 
-      {/* Mobile: vertical timeline */}
+      {/* Mobile: vertical connector from first icon through end of list */}
       <ol className="relative space-y-0 md:hidden">
         <div
           aria-hidden
-          className="pointer-events-none absolute bottom-4 left-4 top-4 w-px bg-neutral-700"
+          className="pointer-events-none absolute bottom-0 left-4 top-4 z-0 w-px bg-neutral-700"
         />
         {steps.map((step, index) => {
           const isLast = index === steps.length - 1;
           return (
             <li
               key={step.id}
-              className={cn("relative pl-12", !isLast && "pb-10")}
+              className={cn("relative flex flex-col items-start", !isLast && "pb-10")}
             >
-              <div className="absolute left-0 top-0 z-10">
-                <StepIcon icon={step.icon} />
-              </div>
-              <p className="font-mono text-xs tracking-widest text-[var(--text-secondary)]">
+              <StepIcon icon={step.icon} />
+              <p className="mt-5 font-mono text-xs tracking-widest text-[var(--text-secondary)]">
                 {step.number}
               </p>
               <h3 className="mt-2 text-base font-semibold text-[var(--text-primary)]">{step.label}</h3>
