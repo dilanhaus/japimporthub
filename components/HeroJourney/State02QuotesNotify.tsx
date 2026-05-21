@@ -52,11 +52,12 @@ export function State02QuotesNotify({ onContentReady, onSequenceComplete }: Stag
   }, [visibleCards, onContentReady]);
 
   return (
-    <div className="relative">
-      <div className="grid gap-3 md:grid-cols-3">
+    <div className="relative min-w-0">
+      <div className="grid min-w-0 grid-cols-1 gap-3 pt-14 md:grid-cols-3 md:pt-0">
         {DEMO_QUOTES.map((quote, index) => (
           <m.div
             key={quote.id}
+            className="min-w-0"
             initial={{ opacity: 0, x: 44 }}
             animate={index < visibleCards ? { opacity: 1, x: 0 } : { opacity: 0, x: 44 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}

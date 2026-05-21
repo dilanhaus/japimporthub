@@ -47,8 +47,8 @@ export function State04AcceptQuote({ onContentReady, onSequenceComplete }: Stage
   const showCursor = phase !== "idle";
 
   return (
-    <div className="relative">
-      <div className="grid gap-3 md:grid-cols-3">
+    <div className="relative min-w-0">
+      <div className="grid min-w-0 grid-cols-1 gap-3 md:grid-cols-3">
         {DEMO_QUOTES.map((quote, index) => {
           const isWinner = index === SELECTED_QUOTE_INDEX;
           const isAccepted = accepted && isWinner;
@@ -62,7 +62,7 @@ export function State04AcceptQuote({ onContentReady, onSequenceComplete }: Stage
                 x: accepted && !isWinner ? -4 : 0,
               }}
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="relative"
+              className="relative min-w-0"
             >
               {isAccepted ? (
                 <m.div

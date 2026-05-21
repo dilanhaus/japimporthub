@@ -38,7 +38,7 @@ export function DocumentStack({ compact = false }: DocumentStackProps) {
     <div
       className={cn(
         "relative flex items-center justify-center",
-        compact ? "h-[200px]" : "h-[220px]",
+        compact ? "h-[160px] md:h-[200px]" : "h-[220px]",
       )}
     >
       {DOCUMENTS.map((doc, index) => {
@@ -49,7 +49,7 @@ export function DocumentStack({ compact = false }: DocumentStackProps) {
             key={doc.id}
             className={cn(
               "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
-              compact ? "w-[130px]" : "w-[200px] sm:w-[220px]",
+              compact ? "w-[110px] md:w-[130px]" : "w-[200px] sm:w-[220px]",
             )}
             style={{ zIndex: layout.z }}
             initial={{
@@ -80,10 +80,10 @@ export function DocumentStack({ compact = false }: DocumentStackProps) {
                 className="absolute right-0 top-0 size-5 bg-gradient-to-bl from-neutral-900/90 to-transparent"
                 aria-hidden
               />
-              <div className="relative px-3 pb-3 pt-2.5">
+              <div className="relative px-2 pb-2 pt-2 md:px-3 md:pb-3 md:pt-2.5">
                 <div className="flex items-center gap-1.5 border-b border-neutral-800/80 pb-1.5">
-                  <Icon className="size-3.5 text-neutral-500" strokeWidth={1.5} aria-hidden />
-                  <p className="text-[10px] font-semibold text-[var(--text-primary)]">{doc.title}</p>
+                  <Icon className="size-3 text-neutral-500 md:size-3.5" strokeWidth={1.5} aria-hidden />
+                  <p className="text-[9px] font-semibold text-[var(--text-primary)] md:text-[10px]">{doc.title}</p>
                 </div>
                 <RedactedLines />
                 <Badge

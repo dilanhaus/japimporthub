@@ -116,20 +116,20 @@ export function State01PostRequest({ onContentReady, onSequenceComplete }: Stage
   return (
     <div ref={containerRef} className="relative">
       <Card className="border-neutral-800/90 bg-[var(--bg)]/60 py-0 ring-neutral-800/80">
-        <CardContent className="p-5 sm:p-6">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--text-secondary)]">
+        <CardContent className="p-3 md:p-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-secondary)] md:text-[10px]">
             New import request
           </p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div className="mt-3 grid gap-2 md:mt-4 md:gap-3 md:grid-cols-2">
             {REQUEST_FIELDS.map((field, index) => (
               <div
                 key={field.label}
-                className="min-h-[3.25rem] rounded-lg border border-neutral-800/80 bg-[var(--surface)]/60 px-3 py-2.5"
+                className="min-h-[2.75rem] rounded-lg border border-neutral-800/80 bg-[var(--surface)]/60 px-2.5 py-2 md:min-h-[3.25rem] md:px-3 md:py-2.5"
               >
                 {index < visibleCount ? (
                   <m.div {...staggerItem} transition={{ duration: 0.32 }}>
-                    <p className="text-[10px] text-[var(--text-secondary)]">{field.label}</p>
-                    <p className="mt-0.5 text-sm font-medium text-[var(--text-primary)]">
+                    <p className="text-xs text-[var(--text-secondary)] md:text-[10px]">{field.label}</p>
+                    <p className="mt-0.5 text-sm font-medium text-[var(--text-primary)] md:text-sm">
                       {field.mono ? <MonoValue>{field.value}</MonoValue> : field.value}
                     </p>
                   </m.div>
@@ -151,7 +151,7 @@ export function State01PostRequest({ onContentReady, onSequenceComplete }: Stage
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="relative mt-5"
+                className="relative mt-4 md:mt-5"
               >
                 <m.button
                   ref={buttonRef}

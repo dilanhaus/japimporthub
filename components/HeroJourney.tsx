@@ -175,12 +175,17 @@ export function HeroJourney({ className }: HeroJourneyProps) {
 
         <div
           className={cn(
-            "relative mt-4",
-            state === 5 ? "min-h-[360px] sm:min-h-[400px]" : "min-h-[260px] sm:min-h-[280px]",
+            "relative mt-4 h-auto min-h-[520px] overflow-hidden",
+            state === 5 && "min-h-[680px]",
+            "md:h-[480px] md:min-h-[480px]",
           )}
         >
           <AnimatePresence mode="wait">
-            <m.div key={state} className="absolute inset-0 flex flex-col justify-center" {...stageFade}>
+            <m.div
+              key={state}
+              className="relative flex flex-col justify-start md:absolute md:inset-0 md:justify-center"
+              {...stageFade}
+            >
               <ActiveState {...lifecycleProps} />
             </m.div>
           </AnimatePresence>

@@ -40,7 +40,7 @@ export function State05DocsDeposit({ onContentReady, onSequenceComplete }: Stage
   }, [onContentReady, onSequenceComplete]);
 
   return (
-    <div className="grid items-stretch gap-0 md:grid-cols-2">
+    <div className="grid min-w-0 grid-cols-1 items-stretch gap-0 md:grid-cols-2">
       <div className="flex flex-col border-neutral-800/80 pb-6 md:border-r md:pb-0 md:pr-6">
         <p className="mb-1 text-[10px] font-medium uppercase tracking-wider text-neutral-500">
           Import Documents
@@ -48,7 +48,7 @@ export function State05DocsDeposit({ onContentReady, onSequenceComplete }: Stage
         <DocumentStack compact />
       </div>
 
-      <div className="flex flex-col justify-center border-t border-neutral-800/80 pt-6 md:border-t-0 md:pl-6 md:pt-0">
+      <div className="flex flex-col justify-center border-t border-neutral-800/80 pt-6 md:border-t-0 md:border-l-0 md:pl-6 md:pt-0">
         <p className="mb-4 text-[10px] font-medium uppercase tracking-wider text-neutral-500">
           Secure Deposit
         </p>
@@ -88,7 +88,7 @@ export function State05DocsDeposit({ onContentReady, onSequenceComplete }: Stage
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.35 }}
-            className="mt-4 text-xl font-semibold text-[var(--text-primary)]"
+            className="mt-4 text-lg font-semibold text-[var(--text-primary)] md:text-xl"
           >
             <MonoValue>{VEHICLE.deposit}</MonoValue> deposit
           </m.p>

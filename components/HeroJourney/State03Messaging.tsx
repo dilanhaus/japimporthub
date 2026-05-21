@@ -85,8 +85,8 @@ export function State03Messaging({ onContentReady, onSequenceComplete }: StageLi
   }, [visibleCount, onContentReady]);
 
   return (
-    <div className="flex flex-col">
-      <div className="max-h-[240px] space-y-2.5 overflow-hidden rounded-xl border border-neutral-800/90 bg-[var(--bg)]/50 p-3 sm:max-h-[260px] sm:p-4">
+    <div className="flex min-w-0 flex-col">
+      <div className="max-h-none space-y-2.5 overflow-visible rounded-xl border border-neutral-800/90 bg-[var(--bg)]/50 p-3 md:max-h-[260px] md:overflow-hidden md:p-4">
         <AnimatePresence initial={false}>
           {CHAT_MESSAGES.slice(0, visibleCount).map((msg, index) => (
             <m.div
@@ -98,7 +98,7 @@ export function State03Messaging({ onContentReady, onSequenceComplete }: StageLi
             >
               <div
                 className={cn(
-                  "max-w-[92%] rounded-2xl px-3 py-2 text-xs leading-relaxed sm:max-w-[85%] sm:text-[13px]",
+                  "max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed md:text-[13px]",
                   msg.side === "dealer"
                     ? "rounded-bl-md border border-neutral-800 bg-neutral-800/90 text-[var(--text-primary)]"
                     : "rounded-br-md border border-[var(--red)]/25 bg-[var(--red)]/10 text-[var(--text-primary)]",
@@ -128,7 +128,7 @@ export function State03Messaging({ onContentReady, onSequenceComplete }: StageLi
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-[var(--text-secondary)]"
+            className="mt-3 flex shrink-0 items-center justify-center gap-1.5 pb-1 text-center text-[11px] text-[var(--text-secondary)]"
           >
             <Lock className="size-3 shrink-0 text-emerald-500/80" aria-hidden />
             Conversations are logged and protected on Grade Five

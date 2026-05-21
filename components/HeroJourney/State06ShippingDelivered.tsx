@@ -24,6 +24,16 @@ function milestoneLeftPercent(index: number) {
   return (index / (SHIPPING_MILESTONES.length - 1)) * 100;
 }
 
+const MILESTONE_MOBILE_LABELS: Record<string, string> = {
+  auction: "Won",
+  export: "Exported",
+  osaka: "Departed",
+  transit: "Transit",
+  uk: "UK Port",
+  customs: "Customs",
+  delivered: "Delivered",
+};
+
 type Phase = "tracking" | "fading" | "delivery";
 
 export function State06ShippingDelivered({
@@ -76,7 +86,7 @@ export function State06ShippingDelivered({
   const showDelivery = phase === "delivery";
 
   return (
-    <div className="relative min-h-[320px] sm:min-h-[340px]">
+    <div className="relative min-w-0 md:min-h-[340px]">
       <AnimatePresence mode="wait">
         {showTracker ? (
           <m.div
@@ -85,7 +95,7 @@ export function State06ShippingDelivered({
             animate={{ opacity: phase === "fading" ? 0 : 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: STAGE6_TRACKING_FADE_MS / 1000, ease: "easeInOut" }}
-            className="absolute inset-0 flex flex-col justify-center"
+            className="relative flex flex-col justify-center md:absolute md:inset-0"
           >
             <div className="relative px-0.5 pt-1">
               <div
@@ -146,18 +156,19 @@ export function State06ShippingDelivered({
                       </div>
                       <p
                         className={cn(
-                          "mt-1.5 max-w-[3rem] text-center text-[7px] leading-tight sm:max-w-none sm:text-[9px]",
+                          "mt-1.5 max-w-[2.5rem] text-center text-[10px] leading-tight md:max-w-none md:text-[9px]",
                           isHighlighted ? "text-[var(--text-primary)]" : "text-neutral-600",
                         )}
                       >
-                        {milestone.label}
+                        <span className="md:hidden">{MILESTONE_MOBILE_LABELS[milestone.id]}</span>
+                        <span className="hidden md:inline">{milestone.label}</span>
                       </p>
                     </li>
                   );
                 })}
               </ol>
             </div>
-            <p className="mt-4 text-center text-[11px] text-[var(--text-secondary)] sm:text-xs">
+            <p className="mt-4 px-1 text-center text-[10px] leading-snug text-[var(--text-secondary)] md:text-xs">
               {SHIPPING_SUBLINE}
             </p>
           </m.div>
@@ -171,11 +182,11 @@ export function State06ShippingDelivered({
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute inset-0 grid items-center gap-5 md:grid-cols-2 md:gap-8"
+            className="relative grid grid-cols-1 items-start gap-4 md:absolute md:inset-0 md:grid-cols-2 md:items-center md:gap-8"
           >
             <div className="flex flex-col items-center text-center md:items-start md:text-left">
-              <AnimatedCheckmark className="size-14 sm:size-16" />
-              <p className="mt-4 text-base font-semibold text-[var(--text-primary)] sm:text-lg">
+              <AnimatedCheckmark className="size-12 md:size-16" />
+              <p className="mt-3 text-sm font-semibold text-[var(--text-primary)] md:mt-4 md:text-lg">
                 Your Skyline R33 is ready for delivery
               </p>
               <p className="mt-1.5 text-sm text-[var(--text-secondary)]">
@@ -198,13 +209,13 @@ export function State06ShippingDelivered({
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-emerald-500/40 shadow-lg ring-1 ring-white/10">
+              <div className="relative h-[140px] max-h-[140px] overflow-hidden rounded-xl border border-emerald-500/40 shadow-lg ring-1 ring-white/10 md:aspect-[4/3] md:h-40 md:max-h-none">
                 <Image
                   src={DELIVERY_IMAGE}
                   alt="Nissan Skyline R33"
                   fill
                   sizes="(max-width: 768px) 100vw, 480px"
-                  className="object-cover"
+                  className="object-cover object-center"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--bg)]/35 via-transparent to-transparent" />
               </div>

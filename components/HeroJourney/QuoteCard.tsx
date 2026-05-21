@@ -28,7 +28,7 @@ export function QuoteCard({
   return (
     <m.article
       className={cn(
-        "relative flex h-full flex-col rounded-xl border bg-[var(--bg)]/90 p-4",
+        "relative flex h-full min-w-0 flex-col rounded-xl border bg-[var(--bg)]/90 p-3 md:p-4",
         accepted ? "border-emerald-400/70" : "border-neutral-800/90",
         dimmed && "opacity-35",
         className,
@@ -40,7 +40,7 @@ export function QuoteCard({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Badge className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 border-emerald-400/50 bg-emerald-500/20 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-300 shadow-[0_0_20px_rgba(52,211,153,0.35)]">
+          <Badge className="absolute -top-3 left-2 z-10 max-w-[calc(100%-0.5rem)] border-emerald-400/50 bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-300 shadow-[0_0_20px_rgba(52,211,153,0.35)] md:left-1/2 md:max-w-none md:-translate-x-1/2 md:px-2.5 md:text-[11px]">
             {acceptedLabel}
           </Badge>
         </m.div>

@@ -86,18 +86,18 @@ export function HorizontalSteps({ steps = DEFAULT_STEPS, className }: Horizontal
         ))}
       </ol>
 
-      {/* Mobile: vertical connector from first icon through end of list */}
-      <ol className="relative space-y-0 md:hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute bottom-0 left-4 top-4 z-0 w-px bg-neutral-700"
-        />
+      {/* Mobile: dividers between steps (no vertical line) */}
+      <ol className="space-y-0 md:hidden">
         {steps.map((step, index) => {
           const isLast = index === steps.length - 1;
           return (
             <li
               key={step.id}
-              className={cn("relative flex flex-col items-start", !isLast && "pb-10")}
+              className={cn(
+                "flex flex-col items-start",
+                index > 0 && "border-t border-neutral-800 pt-8",
+                !isLast && "pb-8",
+              )}
             >
               <StepIcon icon={step.icon} />
               <p className="mt-5 font-mono text-xs tracking-widest text-[var(--text-secondary)]">

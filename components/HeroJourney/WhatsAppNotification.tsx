@@ -16,7 +16,7 @@ export function WhatsAppNotification({ visible }: WhatsAppNotificationProps) {
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: -72, opacity: 0, scale: 0.97 }}
           transition={{ type: "spring", stiffness: 380, damping: 28 }}
-          className="absolute right-3 top-2 z-40 max-w-[280px] rounded-xl border border-neutral-700/80 bg-[#1c1c1e]/95 p-3 shadow-[0_16px_48px_-12px_rgba(0,0,0,0.9)] backdrop-blur-md sm:right-4"
+          className="absolute right-4 top-4 z-50 max-w-[240px] rounded-xl border border-neutral-700/80 bg-[#1c1c1e]/95 p-3 text-xs shadow-[0_16px_48px_-12px_rgba(0,0,0,0.9)] backdrop-blur-md md:max-w-[280px] md:text-sm"
           role="status"
           aria-live="polite"
         >
@@ -30,10 +30,10 @@ export function WhatsAppNotification({ visible }: WhatsAppNotificationProps) {
               </svg>
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold text-[var(--text-primary)]">
+              <p className="text-xs font-semibold text-[var(--text-primary)] md:text-sm">
                 {WHATSAPP_NOTIFICATION.title}
               </p>
-              <p className="mt-0.5 text-xs leading-snug text-[var(--text-secondary)]">
+              <p className="mt-0.5 text-xs leading-snug text-[var(--text-secondary)] md:text-xs">
                 {WHATSAPP_NOTIFICATION.message}
               </p>
               <p className="mt-1 text-[10px] text-neutral-500">{WHATSAPP_NOTIFICATION.time}</p>
